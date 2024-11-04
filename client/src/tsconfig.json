@@ -1,0 +1,19 @@
+{
+  "files": [],
+  "references": [
+    { "path": "../src/config/tsconfig.app.json" },
+    { "path": "../src/config/tsconfig.node.json" }
+  ],
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "./src/**/*.js",
+    "./src/custom.d.ts"
+  ],
+
+  "compilerOptions": {
+    "baseUrl": "src",
+    "allowUmdGlobalAccess": true,
+    "jsx": "react-jsx"
+  }
+}
