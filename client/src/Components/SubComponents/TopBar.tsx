@@ -20,8 +20,8 @@ const Styled = {
 
 const TopBar = ({ title }) => {
   return (
-    <Styled.Container>
-      <Styled.Title>{title}</Styled.Title>
+    <Styled.Container aria-label="Top Bar Container">
+      <Styled.Title aria-label="Page Title">{title}</Styled.Title>
     </Styled.Container>
   );
 };

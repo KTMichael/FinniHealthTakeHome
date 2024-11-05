@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button } from "../ComponentStyles/componentStyles";
+import { Button } from "../SubComponents/SubComponentStyles/popOverStyles";
 
 export const MainDemoStyled = {
   Container: styled.div`

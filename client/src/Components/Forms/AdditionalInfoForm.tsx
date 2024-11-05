@@ -7,7 +7,7 @@ import { Styled } from "./formStyles";
 import { updateAdditionalField } from "../databaseFunctions";
 import { AdditionalField } from "../../types";
 
-function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
+const FieldInfo = ({ field }: { field: FieldApi<any, any, any, any> }) => {
   return (
     <>
       {field.state.meta.isTouched && field.state.meta.errors.length ? (
@@ -16,7 +16,7 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
       {field.state.meta.isValidating ? "Validating..." : null}
     </>
   );
-}
+};
 
 interface Props {
   setOpen: (boolean) => void;
@@ -24,13 +24,13 @@ interface Props {
 }
 
 const AdditionalInfoForm = ({ setOpen, formValues }) => {
+  console.log(formValues);
   const form = useForm({
     onSubmit: async ({ value }) => {
       const payload = {
         ...value,
       };
       if (payload) {
-        console.log("p", payload);
         updateAdditionalField(payload, formValues.id, formValues.title).then(
           () => {
             setOpen(false);
@@ -42,7 +42,7 @@ const AdditionalInfoForm = ({ setOpen, formValues }) => {
   });
 
   return (
-    <Styled.Container>
+    <Styled.Container aria-label="Update Additional Info Form">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -50,8 +50,9 @@ const AdditionalInfoForm = ({ setOpen, formValues }) => {
           form.handleSubmit();
         }}
       >
-        <Styled.FormFieldContainer>
+        <Styled.FormFieldContainer aria-label="Update Additional Info Form Container">
           <form.Field
+            aria-label="Update Additional Info Form Field"
             name={formValues.fieldName}
             validators={{
               onChange: z
@@ -69,7 +70,10 @@ const AdditionalInfoForm = ({ setOpen, formValues }) => {
             children={(field) => (
               <Styled.FormField>
                 <Styled.Section>
-                  <Styled.Label htmlFor={field.name}>
+                  <Styled.Label
+                    htmlFor={field.name}
+                    aria-label="Update Additional Info Label"
+                  >
                     {formValues.fieldName}*:
                   </Styled.Label>
                   <Styled.Input
@@ -79,9 +83,13 @@ const AdditionalInfoForm = ({ setOpen, formValues }) => {
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     placeholder={formValues.fieldName}
+                    aria-label="Update Additional Info Input"
                   />
                 </Styled.Section>
-                <FieldInfo field={field} />
+                <FieldInfo
+                  field={field}
+                  aria-label="Update Additional Info Field Info"
+                />
               </Styled.FormField>
             )}
           />
@@ -90,7 +98,11 @@ const AdditionalInfoForm = ({ setOpen, formValues }) => {
           selector={(state) => [state.canSubmit, state.isSubmitting]}
           children={([canSubmit, isSubmitting]) => (
             <Styled.ButtonContainer>
-              <Styled.Button type="submit" disabled={!canSubmit}>
+              <Styled.Button
+                type="submit"
+                disabled={!canSubmit}
+                aria-label="Update Additional Info Submit Button"
+              >
                 {isSubmitting ? "..." : "Submit"}
               </Styled.Button>
             </Styled.ButtonContainer>

@@ -66,7 +66,7 @@ type DynamicKeyValuePair = {
 };
 
 export type AdditionalInfo = {
-  additionalInfo?: DynamicKeyValuePair;
+  universalAdditionalInfoFields?: DynamicKeyValuePair;
   additionalPatientSpecificInfo?: DynamicKeyValuePair;
 };
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Login, Dashboard, PatientProfile } from "./components/index.ts";
+import { Login, Dashboard, PatientProfile } from "./Components/MainComponents";
 import { Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 

@@ -11,7 +11,7 @@ import {
   DialogOverlay,
   Title,
   Button,
-} from "../ComponentStyles/componentStyles";
+} from "./SubComponentStyles/popOverStyles";
 import styled from "styled-components";
 import {
   DefaultMainDemographicValues,
@@ -59,6 +59,7 @@ interface Props {
   fieldNames?: string[];
   id?: string;
   additionalField?: AdditionalField;
+  allUniversalAdditionalInfoFields?: { [x: string]: string };
 }
 
 const PopOver: React.FC<Props> = ({
@@ -71,6 +72,7 @@ const PopOver: React.FC<Props> = ({
   fieldNames,
   id,
   additionalField,
+  allUniversalAdditionalInfoFields,
 }) => {
   const [open, setOpen] = React.useState(false);
   const [formComponent, setFormComponent] = React.useState(
@@ -78,6 +80,7 @@ const PopOver: React.FC<Props> = ({
       setOpen={setOpen}
       formValues={DefaultMainDemographicValues}
       setGetUpdatedData={setGetUpdatedData}
+      allUniversalAdditionalInfoFields={allUniversalAdditionalInfoFields}
     />
   );
 
@@ -88,6 +91,7 @@ const PopOver: React.FC<Props> = ({
           setOpen={setOpen}
           formValues={mainDemographics ?? DefaultMainDemographicValues}
           setGetUpdatedData={setGetUpdatedData}
+          allUniversalAdditionalInfoFields={allUniversalAdditionalInfoFields}
         />
       );
     }
@@ -123,20 +127,26 @@ const PopOver: React.FC<Props> = ({
   }, [mainDemographics, additionalAddress, fieldNames, additionalField]);
   return (
     <div>
-      <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Root
+        open={open}
+        onOpenChange={setOpen}
+        aria-label="Pop Over Container"
+      >
         <Dialog.Trigger asChild>
           {triggerType === "button" ? (
             <Styled.ButtonContainer>
-              <Button>{buttonText}</Button>
+              <Button aria-label={`Pop Over ${buttonText} Button`}>
+                {buttonText}
+              </Button>
             </Styled.ButtonContainer>
           ) : (
-            <Styled.Icon icon={faPen} />
+            <Styled.Icon icon={faPen} aria-label="Edit" />
           )}
         </Dialog.Trigger>
         <Dialog.Portal>
           <DialogOverlay />
           <Styled.DialogContent>
-            <Styled.Title>{title}</Styled.Title>
+            <Styled.Title aria-label="Pop Over Title">{title}</Styled.Title>
             {formComponent}
           </Styled.DialogContent>
         </Dialog.Portal>

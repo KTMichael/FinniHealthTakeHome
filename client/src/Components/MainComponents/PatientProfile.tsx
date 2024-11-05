@@ -3,7 +3,7 @@ import { SideBar, TopBar, PopOver } from "..";
 import { useNavigate, useLocation } from "react-router-dom";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db, deleteAddress, deleteAdditionalField } from "../databaseFunctions";
-import { Styled } from "../ComponentStyles/patientProfileStyles";
+import { Styled } from "./MainComponentStyles/patientProfileStyles";
 import {
   faArrowLeft,
   faUserAstronaut,
@@ -76,7 +76,8 @@ const PatientProfile = () => {
         id: doc.id,
       });
       setAdditionalInfo({
-        additionalInfo: doc.data()?.additionalInfo,
+        universalAdditionalInfoFields:
+          doc.data()?.universalAdditionalInfoFields,
         additionalPatientSpecificInfo:
           doc.data()?.additionalPatientSpecificInfo,
       });
@@ -88,13 +89,17 @@ const PatientProfile = () => {
   const displayAddress = () => {
     return additionalAddresses?.addresses?.map((address, index) => {
       return (
-        <Styled.AdditionalAddress key={`address num ${index}`}>
+        <Styled.AdditionalAddress
+          key={`address num ${index}`}
+          aria-label="Additional Address"
+        >
           <Styled.AddressTitle>
             {address.title}:
             <Styled.EditDelete>
               <Styled.Icon
                 icon={faTrashCan}
                 onClick={() => deleteAddress(address, additionalAddresses.id)}
+                aria-label="Delete Additional Address"
               />
               <PopOver
                 title={AdditionalAddressTitles.edit}
@@ -103,6 +108,7 @@ const PatientProfile = () => {
                   addresses: [address],
                   id: additionalAddresses.id,
                 }}
+                aria-label="Edit Additional Address"
               />
             </Styled.EditDelete>
           </Styled.AddressTitle>
@@ -117,7 +123,7 @@ const PatientProfile = () => {
 
   React.useEffect(() => {
     if (additionalInfo) {
-      const additional = additionalInfo.additionalInfo;
+      const additional = additionalInfo.universalAdditionalInfoFields;
       const patientSpecific = additionalInfo.additionalPatientSpecificInfo;
       const additionalInfoData = { ...additional, ...patientSpecific };
       const fields = Object.keys(additionalInfoData).sort((a, b) =>
@@ -129,14 +135,21 @@ const PatientProfile = () => {
 
   const displayAdditionalInfo = (additionalInfo, dbTitle) => {
     if (additionalInfo) {
-      const fields = Object.keys(additionalInfo);
+      const fields = Object.keys(additionalInfo).sort((a, b) =>
+        a.localeCompare(b)
+      );
       return fields.map((fieldName) => {
         return (
-          <Styled.AdditionalField key={fieldName}>
+          <Styled.AdditionalField
+            key={fieldName}
+            aria-label={`Additional Info ${fieldName}`}
+          >
             <Styled.AdditionalFieldTitle>
               {fieldName}:
             </Styled.AdditionalFieldTitle>
-            {additionalInfo[fieldName]}
+            <Styled.AdditionalInfoValue>
+              {additionalInfo[fieldName]}
+            </Styled.AdditionalInfoValue>
             <Styled.EditDelete>
               <Styled.Icon
                 icon={faTrashCan}
@@ -147,6 +160,7 @@ const PatientProfile = () => {
                     dbTitle
                   )
                 }
+                aria-label={`Delete ${fieldName} Field`}
               />
               <PopOver
                 title={AdditionalInfoTitles.edit}
@@ -154,9 +168,10 @@ const PatientProfile = () => {
                 additionalField={{
                   id: state.id,
                   fieldName: fieldName,
-                  fieldValue: additionalInfo[fieldName] && "",
+                  fieldValue: additionalInfo[fieldName],
                   title: dbTitle,
                 }}
+                aria-label={`Edit ${fieldName} Field`}
               />
             </Styled.EditDelete>
           </Styled.AdditionalField>
@@ -167,48 +182,60 @@ const PatientProfile = () => {
     }
   };
   return (
-    <Styled.Container>
+    <Styled.Container aria-label="Patient Profile">
       <SideBar />
       <Styled.MainSection>
         <TopBar title="Patient Profile"></TopBar>
         <Styled.ButtonContainer>
-          <Styled.BacktoDashBoard onClick={() => goBackToDashboard()}>
+          <Styled.BacktoDashBoard
+            onClick={() => goBackToDashboard()}
+            aria-label="Back to Dashboard Button"
+          >
             <Styled.ArrowIcon icon={faArrowLeft} />
             Back to Dashboard
           </Styled.BacktoDashBoard>
         </Styled.ButtonContainer>
         <Styled.PatientInfo>
-          <Styled.MainDemographics>
+          <Styled.MainDemographics aria-label="Main Demographics">
             <Styled.Header>
-              <Styled.Name>
+              <Styled.Name aria-label="Patient Full Name">
                 <div>{mainDemographics.firstName}</div>
                 <div>{mainDemographics.middleName} </div>
                 <div>{mainDemographics.lastName}</div>
               </Styled.Name>
-              <Styled.UserIcon icon={faUserAstronaut} />
+              <Styled.PatientIcon
+                icon={faUserAstronaut}
+                aria-label="Patient Icon"
+              />
             </Styled.Header>
             <Styled.Line />
             <Styled.Body>
               <Styled.ContentContainer>
                 <Styled.Content>
                   <Styled.Label>Intake Status:</Styled.Label>
-                  <Styled.Value>{mainDemographics.intakeStatus}</Styled.Value>
+                  <Styled.Value aria-label="Patient Intake Status">
+                    {mainDemographics.intakeStatus}
+                  </Styled.Value>
                   <Styled.Label>Date of Birth:</Styled.Label>
-                  <Styled.Value>{mainDemographics.dob}</Styled.Value>
+                  <Styled.Value aria-label="Patient Date of Birth">
+                    {mainDemographics.dob}
+                  </Styled.Value>
                 </Styled.Content>
                 <Styled.Content>
                   <Styled.Label>Phone Number:</Styled.Label>
-                  <Styled.Value>
+                  <Styled.Value aria-label="Patient Phone Number">
                     {formatPhoneNumber(mainDemographics.phoneNumber)}
                   </Styled.Value>
                 </Styled.Content>
                 <Styled.Content>
                   <Styled.Label>Email:</Styled.Label>
-                  <Styled.Value>{mainDemographics.email}</Styled.Value>
+                  <Styled.Value aria-label="Patient Email">
+                    {mainDemographics.email}
+                  </Styled.Value>
                 </Styled.Content>
                 <Styled.Content>
                   <Styled.Label>Primary Address:</Styled.Label>
-                  <Styled.Value>
+                  <Styled.Value aria-label="Patient Primary Address">
                     {mainDemographics.primaryAddress},{" "}
                     {mainDemographics.primaryAddress2}{" "}
                     {mainDemographics.primaryCity},{" "}
@@ -221,7 +248,7 @@ const PatientProfile = () => {
                   {displayAddress()}
                 </Styled.Content>
               </Styled.ContentContainer>
-              <div>
+              <div aria-label="Edit Main Demographics Button">
                 <PopOver
                   title={MainDemoTitles.edit}
                   mainDemographics={mainDemographics}
@@ -238,10 +265,11 @@ const PatientProfile = () => {
                   addresses: [DefaultAdditionalAddress],
                   id: state.id,
                 }}
+                aria-label="Add Additional Address Button"
               />
             </Styled.AddAddress>
           </Styled.MainDemographics>
-          <Styled.AdditionalInfo>
+          <Styled.AdditionalInfo aria-label="Additional Info Container">
             <Styled.AdditionalInfoHeader>
               <Styled.CardTitle>Additional Information</Styled.CardTitle>
               <Styled.AddAdditionalInfoFields>
@@ -251,6 +279,7 @@ const PatientProfile = () => {
                   triggerType="button"
                   id={state.id}
                   fieldNames={additionalInfoFields}
+                  aria-label="Add Additional Info Field to Current Patient"
                 />
                 <PopOver
                   title={AdditionalInfoTitles.add}
@@ -258,22 +287,35 @@ const PatientProfile = () => {
                   triggerType="button"
                   id={state.id}
                   fieldNames={additionalInfoFields}
+                  aria-label="Add Additional Info Field to Current Patient"
                 />
               </Styled.AddAdditionalInfoFields>
             </Styled.AdditionalInfoHeader>
             <Styled.Line />
-            <Styled.AdditionalInfoFields>
-              Patient Specific Fields:
-              {displayAdditionalInfo(
-                additionalInfo?.additionalPatientSpecificInfo,
-                "additionalPatientSpecificInfo"
-              )}
-              Universal Fields:
-              {displayAdditionalInfo(
-                additionalInfo?.additionalInfo,
-                "additionalInfo"
-              )}
-            </Styled.AdditionalInfoFields>
+            <Styled.AdditionalInfoContentContainer>
+              <Styled.AdditionalInfoContent aria-label="Patient Specific Additional Info">
+                <Styled.AdditionalInfoContentTitle>
+                  Patient Specific Fields:
+                </Styled.AdditionalInfoContentTitle>
+                <Styled.AdditionalInfoContentBody>
+                  {displayAdditionalInfo(
+                    additionalInfo?.additionalPatientSpecificInfo,
+                    "additionalPatientSpecificInfo"
+                  )}
+                </Styled.AdditionalInfoContentBody>
+              </Styled.AdditionalInfoContent>
+              <Styled.AdditionalInfoContent aria-label="Universal Additional Info">
+                <Styled.AdditionalInfoContentTitle>
+                  Universal Fields:
+                </Styled.AdditionalInfoContentTitle>
+                <Styled.AdditionalInfoContentBody>
+                  {displayAdditionalInfo(
+                    additionalInfo?.additionalInfo,
+                    "additionalInfo"
+                  )}
+                </Styled.AdditionalInfoContentBody>
+              </Styled.AdditionalInfoContent>
+            </Styled.AdditionalInfoContentContainer>
           </Styled.AdditionalInfo>
         </Styled.PatientInfo>
       </Styled.MainSection>

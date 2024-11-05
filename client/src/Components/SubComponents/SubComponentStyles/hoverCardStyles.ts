@@ -1,4 +1,4 @@
-import { Button } from "./componentStyles";
+import { Button } from "./popOverStyles";
 import styled from "styled-components";
 
 export const Styled = {

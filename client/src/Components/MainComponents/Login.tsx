@@ -5,11 +5,11 @@ import { signInWithPopup } from "firebase/auth";
 import FinniLogoFoxRight from "../Assests/FinniLogoFoxRight.svg";
 import FinniLogo from "../Assests/FinniLogo.svg";
 import styled from "styled-components";
-import { Button } from "../ComponentStyles/componentStyles";
+import { Button } from "../SubComponents/SubComponentStyles/popOverStyles";
 import { UserData } from "../../types";
 
 const Styled = {
-  Background: styled.div`
+  Container: styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -73,17 +73,20 @@ const Login = () => {
   }, [userData]);
 
   return (
-    <Styled.Background>
-      <Styled.Logos>
+    <Styled.Container aria-label="Login Page">
+      <Styled.Logos aria-label="Finni Logos">
         <Styled.LogoFox src={FinniLogoFoxRight} alt="Finni logo Fox" />
-        <Styled.LogoText src={FinniLogo} alt="Finni logo" />
+        <Styled.LogoText src={FinniLogo} alt="Finni logo text" />
       </Styled.Logos>
       <Styled.ButtonContainer>
-        <Styled.Button onClick={signInWithGoogle}>
+        <Styled.Button
+          onClick={signInWithGoogle}
+          aria-label="Sign in with google button"
+        >
           Sign In With Google
         </Styled.Button>
       </Styled.ButtonContainer>
-    </Styled.Background>
+    </Styled.Container>
   );
 };
 

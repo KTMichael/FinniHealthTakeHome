@@ -8,7 +8,7 @@ import { TFormDataAddressOnly } from "../../types";
 import { addAdditionalAddress, deleteAddress } from "../databaseFunctions";
 import { DefaultAdditionalAddress } from ".././constants";
 
-function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
+const FieldInfo = ({ field }: { field: FieldApi<any, any, any, any> }) => {
   return (
     <>
       {field.state.meta.isTouched && field.state.meta.errors.length ? (
@@ -17,7 +17,7 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
       {field.state.meta.isValidating ? "Validating..." : null}
     </>
   );
-}
+};
 
 interface Props {
   setOpen: (boolean) => void;
@@ -40,7 +40,7 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
     defaultValues: formValues?.addresses[0] ?? DefaultAdditionalAddress,
   });
   return (
-    <Styled.Container>
+    <Styled.Container aria-label="Add Additional Address Form">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -48,8 +48,9 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
           form.handleSubmit();
         }}
       >
-        <Styled.FormFieldContainer>
+        <Styled.FormFieldContainer aria-label="Additional Address Title Form Container">
           <form.Field
+            aria-label="Additional Address Title Field"
             name="title"
             validators={{
               onChange: z
@@ -65,9 +66,14 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
             }}
             validatorAdapter={zodValidator()}
             children={(field) => (
-              <Styled.FormField>
+              <Styled.FormField aria-label="Additional Address Title Form Field">
                 <Styled.Section>
-                  <Styled.Label htmlFor={field.name}>Title*:</Styled.Label>
+                  <Styled.Label
+                    aria-label="Additional Address Title Label"
+                    htmlFor={field.name}
+                  >
+                    Title*:
+                  </Styled.Label>
                   <Styled.Input
                     id={field.name}
                     name={field.name}
@@ -75,15 +81,20 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     placeholder={"Grandparent"}
+                    aria-label="Additional Address Title Input"
                   />
                 </Styled.Section>
-                <FieldInfo field={field} />
+                <FieldInfo
+                  field={field}
+                  aria-label="Additional Address Title Field Info"
+                />
               </Styled.FormField>
             )}
           />
         </Styled.FormFieldContainer>
-        <Styled.FormFieldContainer>
+        <Styled.FormFieldContainer aria-label="Additional Address Form Container">
           <form.Field
+            aria-label="Additional Address Field"
             name="address"
             validators={{
               onChange: z
@@ -99,9 +110,14 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
             }}
             validatorAdapter={zodValidator()}
             children={(field) => (
-              <Styled.FormField>
+              <Styled.FormField aria-label="Additional Address Form Field">
                 <Styled.Section>
-                  <Styled.Label htmlFor={field.name}>Address*:</Styled.Label>
+                  <Styled.Label
+                    htmlFor={field.name}
+                    aria-label="Additional Address Label"
+                  >
+                    Address*:
+                  </Styled.Label>
                   <Styled.Input
                     id={field.name}
                     name={field.name}
@@ -109,15 +125,20 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     placeholder={"1234 9th St"}
+                    aria-label="Additional Address Input"
                   />
                 </Styled.Section>
-                <FieldInfo field={field} />
+                <FieldInfo
+                  field={field}
+                  aria-label="Additional Address Field Info"
+                />
               </Styled.FormField>
             )}
           />
         </Styled.FormFieldContainer>
-        <Styled.FormFieldContainer>
+        <Styled.FormFieldContainer aria-label="Additional Address2 Form Container">
           <form.Field
+            aria-label="Additional Address2 Field"
             name="address2"
             validators={{
               onChange: z
@@ -133,9 +154,14 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
             }}
             validatorAdapter={zodValidator()}
             children={(field) => (
-              <Styled.FormField>
+              <Styled.FormField aria-label="Additional Address2 Form Field">
                 <Styled.Section>
-                  <Styled.Label htmlFor={field.name}>Address 2:</Styled.Label>
+                  <Styled.Label
+                    htmlFor={field.name}
+                    aria-label="Additional Address2 Label"
+                  >
+                    Address 2:
+                  </Styled.Label>
                   <Styled.Input
                     id={field.name}
                     name={field.name}
@@ -143,15 +169,20 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     placeholder={"Suite 45"}
+                    aria-label="Additional Address2 Input"
                   />
                 </Styled.Section>
-                <FieldInfo field={field} />
+                <FieldInfo
+                  field={field}
+                  aria-label="Additional Address2 Field Info"
+                />
               </Styled.FormField>
             )}
           />
         </Styled.FormFieldContainer>
-        <Styled.FormFieldContainer>
+        <Styled.FormFieldContainer aria-label="Additional City Form Container">
           <form.Field
+            aria-label="Additional City Field"
             name="city"
             validators={{
               onChange: z
@@ -168,9 +199,14 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
             }}
             validatorAdapter={zodValidator()}
             children={(field) => (
-              <Styled.FormField>
+              <Styled.FormField aria-label="Additional City Form Field">
                 <Styled.Section>
-                  <Styled.Label htmlFor={field.name}>City*:</Styled.Label>
+                  <Styled.Label
+                    htmlFor={field.name}
+                    aria-label="Additional City Label"
+                  >
+                    City*:
+                  </Styled.Label>
                   <Styled.Input
                     id={field.name}
                     name={field.name}
@@ -179,15 +215,20 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
                     onChange={(e) => field.handleChange(e.target.value)}
                     type="string"
                     placeholder={"City"}
+                    aria-label="Additional City Input"
                   />
                 </Styled.Section>
-                <FieldInfo field={field} />
+                <FieldInfo
+                  field={field}
+                  aria-label="Additional City Field Info"
+                />
               </Styled.FormField>
             )}
           />
         </Styled.FormFieldContainer>
-        <Styled.FormFieldContainer>
+        <Styled.FormFieldContainer aria-label="Additional State Form Container">
           <form.Field
+            aria-label="Additional State Field"
             name="state"
             validators={{
               onChange: z
@@ -204,9 +245,14 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
             }}
             validatorAdapter={zodValidator()}
             children={(field) => (
-              <Styled.FormField>
+              <Styled.FormField aria-label="Additional State Form Field">
                 <Styled.Section>
-                  <Styled.Label htmlFor={field.name}>State*:</Styled.Label>
+                  <Styled.Label
+                    htmlFor={field.name}
+                    aria-label="Additional State Label"
+                  >
+                    State*:
+                  </Styled.Label>
                   <Styled.Input
                     id={field.name}
                     name={field.name}
@@ -215,15 +261,20 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
                     onChange={(e) => field.handleChange(e.target.value)}
                     type="string"
                     placeholder={"State"}
+                    aria-label="Additional State Input"
                   />
                 </Styled.Section>
-                <FieldInfo field={field} />
+                <FieldInfo
+                  field={field}
+                  aria-label="Additional State Field Info"
+                />
               </Styled.FormField>
             )}
           />
         </Styled.FormFieldContainer>
-        <Styled.FormFieldContainer>
+        <Styled.FormFieldContainer aria-label="Additional Zipcode Form Container">
           <form.Field
+            aria-label="Additional Zipcode Field"
             name="zipcode"
             validators={{
               onChange: z
@@ -240,9 +291,14 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
             }}
             validatorAdapter={zodValidator()}
             children={(field) => (
-              <Styled.FormField>
+              <Styled.FormField aria-label="Additional Zipcode Form Field">
                 <Styled.Section>
-                  <Styled.Label htmlFor={field.name}>Zipcode*:</Styled.Label>
+                  <Styled.Label
+                    htmlFor={field.name}
+                    aria-label="Additional Zipcode Label"
+                  >
+                    Zipcode*:
+                  </Styled.Label>
                   <Styled.Input
                     id={field.name}
                     name={field.name}
@@ -252,6 +308,7 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
                     type="string"
                     placeholder={"98002"}
                     maxLength={5}
+                    aria-label="Additional Zipcode Input"
                   />
                 </Styled.Section>
                 <FieldInfo field={field} />
@@ -263,7 +320,11 @@ const AdditionalAddressForm = ({ setOpen, formValues }) => {
           selector={(state) => [state.canSubmit, state.isSubmitting]}
           children={([canSubmit, isSubmitting]) => (
             <Styled.ButtonContainer>
-              <Styled.Button type="submit" disabled={!canSubmit}>
+              <Styled.Button
+                type="submit"
+                disabled={!canSubmit}
+                aria-label="Additional Address Submit Button"
+              >
                 {isSubmitting ? "..." : "Submit"}
               </Styled.Button>
             </Styled.ButtonContainer>

@@ -3,7 +3,7 @@ import { signOut, getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import FinniLogo from "../Assests/FinniLogo.svg";
 import styled from "styled-components";
-import { Button } from "../ComponentStyles/componentStyles";
+import { Button } from "./SubComponentStyles/popOverStyles";
 
 const Styled = {
   Container: styled.div`
@@ -47,15 +47,17 @@ const SideBar = () => {
   };
 
   return (
-    <Styled.Container>
+    <Styled.Container aria-label="Side Bar Container">
       <Styled.Logo
         src={FinniLogo}
         className="logo"
-        alt="Finni logo"
+        alt="Finni logo Text"
       ></Styled.Logo>
-
       <Styled.ButtonContainer>
-        <Styled.Button onClick={logout}> Sign Out </Styled.Button>
+        <Styled.Button onClick={logout} aria-label="Side Bar Logout Button">
+          {" "}
+          Sign Out{" "}
+        </Styled.Button>
       </Styled.ButtonContainer>
     </Styled.Container>
   );

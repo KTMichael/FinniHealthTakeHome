@@ -23,10 +23,8 @@ const FieldInfo = ({ field }: { field: FieldApi<any, any, any, any> }) => {
 
 interface Props {
   setOpen: (boolean) => void;
-  setGetUpdatedData: (boolean) => void;
-  formValues?: any;
-  fieldDestination: "";
-  id?: string;
+  formValues: string;
+  fieldDestination: string;
   fieldNames?: string[];
 }
 
@@ -36,7 +34,6 @@ export const AddAdditionalInfoField = ({
   fieldDestination,
   fieldNames,
 }) => {
-  console.log(formValues);
   const form = useForm({
     onSubmit: async ({ value }) => {
       const payload = {
@@ -63,7 +60,7 @@ export const AddAdditionalInfoField = ({
     fieldNames?.includes(value.trim()) ? "Field already exists" : undefined;
 
   return (
-    <Styled.Container>
+    <Styled.Container aria-label="Add Additional Patient Information Fields Form">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -71,7 +68,7 @@ export const AddAdditionalInfoField = ({
           form.handleSubmit();
         }}
       >
-        <Styled.FormFieldContainer>
+        <Styled.FormFieldContainer aria-label="Add Additional Patient Information Fields Form Container">
           <form.Field
             name={"fieldName"}
             validators={{
@@ -83,9 +80,12 @@ export const AddAdditionalInfoField = ({
             }}
             validatorAdapter={zodValidator()}
             children={(field) => (
-              <Styled.FormField>
+              <Styled.FormField aria-label="Add Additional Info Field Form Field">
                 <Styled.Section>
-                  <Styled.Label htmlFor={field.name}>
+                  <Styled.Label
+                    htmlFor={field.name}
+                    aria-label="New Field Name Title Label"
+                  >
                     New Field Name*:
                   </Styled.Label>
                   <Styled.Input
@@ -97,9 +97,13 @@ export const AddAdditionalInfoField = ({
                       field.handleChange(upperCase(e.target.value))
                     }
                     placeholder={"Height"}
+                    aria-label="New Field Name Input"
                   />
                 </Styled.Section>
-                <FieldInfo field={field} />
+                <FieldInfo
+                  field={field}
+                  aria-label="New Field Name Form Field Info"
+                />
               </Styled.FormField>
             )}
           />
@@ -108,7 +112,11 @@ export const AddAdditionalInfoField = ({
           selector={(state) => [state.canSubmit, state.isSubmitting]}
           children={([canSubmit, isSubmitting]) => (
             <Styled.ButtonContainer>
-              <Styled.Button type="submit" disabled={!canSubmit}>
+              <Styled.Button
+                type="submit"
+                disabled={!canSubmit}
+                aria-label="New Field Submit Button"
+              >
                 {isSubmitting ? "..." : "Submit"}
               </Styled.Button>
             </Styled.ButtonContainer>

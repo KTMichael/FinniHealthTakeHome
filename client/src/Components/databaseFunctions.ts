@@ -6,7 +6,6 @@ import {
   doc,
   updateDoc,
   addDoc,
-  deleteDoc,
   setDoc,
   arrayUnion,
   arrayRemove,
@@ -29,22 +28,45 @@ export const getAllPatientData = async () => {
     console.error(err);
   }
 };
+export const getUniversalAdditionalInfoFields = async () => {
+  try {
+    const response = await getDocs(collection(db, "AdditionalFields")).then(
+      (data) => {
+        return data.docs.map((doc) => ({
+          ...doc.data(),
+        }));
+      }
+    );
+    return response[0];
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const addFieldToCollection = async (payload) => {
   let title = payload.fieldName;
   try {
-    const PatientsSnapshot = await getDocs(patientDataCollection).then(
-      (data) => {
+    const PatientsSnapshot = await getDocs(patientDataCollection)
+      .then((data) => {
         data.forEach((patient) => {
           setDoc(
             doc(db, "PatientData", patient.id),
             {
-              additionalInfo: { [title]: "" },
+              universalAdditionalInfoFields: { [title]: "" },
             },
             { merge: true }
           );
         });
-      }
-    );
+      })
+      .then(() => {
+        setDoc(
+          doc(db, "AdditionalFields", "AdditionalFields"),
+          {
+            [title]: "",
+          },
+          { merge: true }
+        );
+      });
     return PatientsSnapshot;
   } catch (err) {
     console.error(err);
@@ -107,6 +129,7 @@ export const getPatientDataById = async (id) => {
 };
 
 export const createNewPatient = async (payload) => {
+  console.log("p", payload);
   try {
     await addDoc(patientDataCollection, payload);
   } catch (err) {

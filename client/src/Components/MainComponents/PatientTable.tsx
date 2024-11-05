@@ -24,7 +24,7 @@ import { getDisplayedRowsRange } from "../helpers";
 import HoverCardContainer from "../SubComponents/HoverCard";
 import { Patient } from "../../types";
 import { MainDemoTitles } from "../constants";
-import { Styled } from "../ComponentStyles/patientTableStyles";
+import { Styled } from "./MainComponentStyles/patientTableStyles";
 
 const columns = [
   {
@@ -74,9 +74,14 @@ declare module "@tanstack/react-table" {
 interface Props {
   patientData: Patient;
   setGetUpdatedData: (boolean) => void;
+  allUniversalAdditionalInfoFields: { [x: string]: string };
 }
 
-const PatientTable: React.FC<Props> = ({ patientData, setGetUpdatedData }) => {
+const PatientTable: React.FC<Props> = ({
+  patientData,
+  setGetUpdatedData,
+  allUniversalAdditionalInfoFields,
+}) => {
   const data: any = React.useMemo(() => patientData ?? [], [patientData]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -117,18 +122,20 @@ const PatientTable: React.FC<Props> = ({ patientData, setGetUpdatedData }) => {
   );
 
   return (
-    <Styled.Container>
+    <Styled.Container aria-label="Patient Table Container">
       <Styled.AddPatient>
         <PopOver
           title={MainDemoTitles.add}
           buttonText="+ New Patient"
           setGetUpdatedData={setGetUpdatedData}
           triggerType="button"
+          aria-label="Add New Patient"
+          allUniversalAdditionalInfoFields={allUniversalAdditionalInfoFields}
         />
       </Styled.AddPatient>
       <Styled.TableContainer>
-        <Styled.Table>
-          <Styled.THead>
+        <Styled.Table aria-label="Patient Table">
+          <Styled.THead aria-label="Table Head">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -150,18 +157,21 @@ const PatientTable: React.FC<Props> = ({ patientData, setGetUpdatedData }) => {
                                 <CaretUpIcon
                                   viewBox="1 5 11 2"
                                   cursor="pointer"
+                                  aria-label="Sort Accending Button"
                                 />
                               ),
                               desc: (
                                 <CaretDownIcon
                                   viewBox="1 5 11 2"
                                   cursor="pointer"
+                                  aria-label="Sort Deccending Button"
                                 />
                               ),
                             }[header.column.getIsSorted() as string] ?? (
                               <CaretSortIcon
                                 viewBox="1 5 10 4"
                                 cursor="pointer"
+                                aria-label="Not Sorted Button"
                               />
                             )}
                           </div>
@@ -181,9 +191,12 @@ const PatientTable: React.FC<Props> = ({ patientData, setGetUpdatedData }) => {
           <Styled.TBody>
             {table.getRowModel().rows.map((row) => {
               return (
-                <HoverCard.Root key={`${row.original.id} ${Math.random() + 1}`}>
+                <HoverCard.Root
+                  key={`${row.original.id} ${Math.random() + 1}`}
+                  aria-label="Patient Table Hover Card"
+                >
                   <HoverCard.Trigger asChild>
-                    <Styled.TrRow key={row.id}>
+                    <Styled.TrRow key={row.id} aria-label="Patient Table Row">
                       <HoverCardContainer rowData={row.original as Patient} />
                       {row.getVisibleCells().map((cell) => {
                         return (
@@ -210,6 +223,7 @@ const PatientTable: React.FC<Props> = ({ patientData, setGetUpdatedData }) => {
           onChange={(e) => {
             table.setPageSize(Number(e.target.value));
           }}
+          aria-label="Select Page Size"
         >
           {[5, 10, 20, 30].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
@@ -225,12 +239,14 @@ const PatientTable: React.FC<Props> = ({ patientData, setGetUpdatedData }) => {
           <Styled.Button
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            aria-label="Go To Previous Page Button"
           >
             {"<"}
           </Styled.Button>
           <Styled.Button
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            aria-label="Go To Next Page Button"
           >
             {">"}
           </Styled.Button>
@@ -253,6 +269,7 @@ const Filter = ({ column }: { column: Column<any, unknown> }) => {
 
   return filterVariant === "select" ? (
     <Styled.Select
+      aria-label="Select"
       onChange={(e) => column.setFilterValue(e.target.value)}
       value={columnFilterValue?.toString()}
     >
@@ -275,6 +292,7 @@ const Filter = ({ column }: { column: Column<any, unknown> }) => {
       </datalist>
       {column.id === "intakeStatus" ? (
         <DebouncedInput
+          aria-label="Search Column Input"
           type="text"
           value={(columnFilterValue ?? "") as string}
           onChange={(value) => column.setFilterValue(value)}
@@ -283,6 +301,7 @@ const Filter = ({ column }: { column: Column<any, unknown> }) => {
         />
       ) : (
         <DebouncedInput
+          aria-label="Search Column Input"
           type="text"
           value={(columnFilterValue ?? "") as string}
           onChange={(value) => column.setFilterValue(value)}
@@ -321,6 +340,7 @@ const DebouncedInput = ({
 
   return (
     <Styled.Input
+      aria-label="Search Column Input"
       {...props}
       value={value}
       onChange={(e) => setValue(e.target.value)}

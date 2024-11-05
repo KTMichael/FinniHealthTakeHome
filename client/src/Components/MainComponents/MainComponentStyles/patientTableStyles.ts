@@ -31,6 +31,7 @@ export const Styled = {
     top: 0px;
     border-radius: 10px;
     width: 100%;
+    min-width: 800px;
   `,
   Input: styled.input`
     border-radius: 10px;
@@ -41,6 +42,8 @@ export const Styled = {
     height: 35px;
     background-color: white;
     margin: 10px 5px;
+    width: 80%;
+    min-width: 30px;
   `,
   Select: styled.select`
     border-radius: 4px;
@@ -61,6 +64,7 @@ export const Styled = {
   `,
   Th: styled.th`
     padding-top: 10px;
+    width: 20%;
   `,
   TrRow: styled.tr``,
   Td: styled.td`

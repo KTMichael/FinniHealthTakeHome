@@ -1,7 +1,10 @@
 import * as React from "react";
 import styled from "styled-components";
 import { PatientTable, SideBar, TopBar } from "..";
-import { getAllPatientData } from "../databaseFunctions";
+import {
+  getAllPatientData,
+  getUniversalAdditionalInfoFields,
+} from "../databaseFunctions";
 import { Patient } from "../../types";
 
 const Styled = {
@@ -18,16 +21,41 @@ const Styled = {
     margin: 5px;
     height: calc(100vh - 150px);
   `,
+  Loading: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
+  Spinner: styled.div`
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  `,
 };
 
 const Dashboard = () => {
   const [patientData, setPatientData] = React.useState();
   const [getUpdatedData, setGetUpdatedData] = React.useState(false);
+  const [additionalInfoFields, setAdditionalInfoFields] = React.useState();
 
   React.useEffect(() => {
     setGetUpdatedData(false);
     getAllPatientData().then((data: any) => {
       setPatientData(data);
+    });
+    getUniversalAdditionalInfoFields().then((data: any) => {
+      setAdditionalInfoFields(data);
     });
   }, [getUpdatedData]);
 
@@ -35,18 +63,25 @@ const Dashboard = () => {
     return patientData;
   }, [patientData]);
 
+  const allUniversalAdditionalInfoFields = React.useMemo(() => {
+    return additionalInfoFields;
+  }, [additionalInfoFields]);
+
   return (
-    <Styled.Container>
+    <Styled.Container aria-label="Patient Management Dashboard">
       <SideBar />
       <Styled.MainSection>
         <TopBar title="Patient Management Dashboard"></TopBar>
-        {fullPatientData ? (
+        {fullPatientData && allUniversalAdditionalInfoFields ? (
           <PatientTable
             patientData={fullPatientData}
             setGetUpdatedData={setGetUpdatedData}
+            allUniversalAdditionalInfoFields={allUniversalAdditionalInfoFields}
           />
         ) : (
-          <div>is Loading</div>
+          <Styled.Loading>
+            <Styled.Spinner></Styled.Spinner>
+          </Styled.Loading>
         )}
       </Styled.MainSection>
     </Styled.Container>

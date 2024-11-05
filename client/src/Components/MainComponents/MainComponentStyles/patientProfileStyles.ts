@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button } from "./componentStyles";
+import { Button } from "../../SubComponents/SubComponentStyles/popOverStyles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Styled = {
@@ -10,6 +10,7 @@ export const Styled = {
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow: scroll;
   `,
   Line: styled.div`
     border-bottom: 2px solid black;
@@ -37,7 +38,7 @@ export const Styled = {
   ArrowIcon: styled(FontAwesomeIcon)`
     padding-right: 5px;
   `,
-  UserIcon: styled(FontAwesomeIcon)`
+  PatientIcon: styled(FontAwesomeIcon)`
     font-size: 80px;
   `,
   Icon: styled(FontAwesomeIcon)`
@@ -58,10 +59,10 @@ export const Styled = {
     display: flex;
     flex-direction: row;
     gap: 10px;
+    min-width: 675px;
   `,
   MainDemographics: styled.div`
-    background-color: black;
-    width: 40%;
+    width: 30%;
     min-width: 250px;
     height: calc(100% - 50px);
     margin: 10px auto 0 auto;
@@ -81,15 +82,15 @@ export const Styled = {
     margin: 10px;
     word-wrap: break-word;
     overflow-wrap: anywhere;
+    font-weight: bold;
   `,
   Body: styled.div`
     margin-top: 5px;
     height: calc(100% - 135px);
-    width: 100%;
-    overflow: scroll;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    overflow: scroll;
   `,
   Label: styled.span`
     font-weight: bold;
@@ -132,30 +133,13 @@ export const Styled = {
     justify-content: space-between;
   `,
   AdditionalInfo: styled.div`
-    background-color: black;
-    width: 60%;
-    height: calc(100% - 100px);
-    margin: 10px auto 0 auto;
-    background-color: #f1eade;
-    border: solid #333333 1px;
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
-      hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
-    display: flex;
-    flex-direction: column;
+    width: 70%;
   `,
-  AdditionalInfoFieldsContainer: styled.div``,
   AddAdditionalInfoFields: styled.div`
     font-weight: bold;
     display: flex;
     flex-direction: row;
     gap: 10px;
-  `,
-  AdditionalInfoFields: styled.div`
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
   `,
   AdditionalInfoHeader: styled.div`
     font-weight: bold;
@@ -168,14 +152,69 @@ export const Styled = {
   `,
   AdditionalFieldTitle: styled.div`
     font-weight: bold;
-    display: flex;
-    justify-content: space-between;
+    margin-right: 8px;
+  `,
+  AdditionalInfoValue: styled.div`
+    overflow-wrap: anywhere;
+    max-height: 90px;
+    overflow: scroll;
   `,
   AdditionalField: styled.div`
-    font-weight: bold;
     display: flex;
     justify-content: space-between;
+    align-items: start;
     border-bottom: solid 1px black;
     padding: 5px;
+    font-weight: normal;
+    font-size: 16px;
+  `,
+  AdditionalInfoContentContainer: styled.div`
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px;
+    font-size: 18px;
+    height: calc(100% - 34px);
+    @media (max-width: 1250px) {
+      flex-direction: column;
+      justify-content: start;
+      gap: 10px;
+      width: 100%;
+      height: calc(100% - 100px);
+    }
+  `,
+  AdditionalInfoContentTitle: styled.div`
+    text-align: center;
+    @media (max-width: 1250px) {
+      text-align: left;
+      margin-left: 5px;
+    }
+  `,
+  AdditionalInfoContent: styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+    @media (max-width: 1250px) {
+      width: 97%;
+      height: 50%;
+    }
+  `,
+  AdditionalInfoContentBody: styled.div`
+    height: calc(100% - 96px);
+    width: 95%;
+    margin: 10px auto 0 auto;
+    background-color: #f1eade;
+    border: solid #333333 1px;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+      hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    @media (max-width: 1250px) {
+      height: calc(100% - 65px);
+    }
   `,
 };
