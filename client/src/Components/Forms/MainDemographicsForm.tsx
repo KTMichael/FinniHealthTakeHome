@@ -3,7 +3,7 @@ import type { FieldApi } from "@tanstack/react-form";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
-import { MainDemoStyled as Styled } from "./formStyles";
+import { Styled } from "./formStyles";
 import { createNewPatient, updatePatientData } from "../databaseFunctions";
 import { TFormData, Patient } from "../../types";
 import { deepCompare } from "../helpers";
@@ -33,7 +33,6 @@ const MainDemographicsForm = ({
   setGetUpdatedData,
   allUniversalAdditionalInfoFields,
 }) => {
-  console.log(allUniversalAdditionalInfoFields);
   const form = useForm<TFormData>({
     onSubmit: async ({ value }) => {
       const payload = {
@@ -60,7 +59,7 @@ const MainDemographicsForm = ({
   });
 
   return (
-    <Styled.Container aria-label="Main Demographics Form">
+    <Styled.ExpandingContainer aria-label="Main Demographics Form">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -591,7 +590,7 @@ const MainDemographicsForm = ({
           )}
         />
       </form>
-    </Styled.Container>
+    </Styled.ExpandingContainer>
   );
 };
 

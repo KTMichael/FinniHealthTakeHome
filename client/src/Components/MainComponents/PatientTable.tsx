@@ -19,11 +19,16 @@ import {
   CaretDownIcon,
   CaretUpIcon,
 } from "@radix-ui/react-icons";
-import { PopOver } from "..";
+import { PopOver } from "../";
 import { getDisplayedRowsRange } from "../helpers";
 import HoverCardContainer from "../SubComponents/HoverCard";
 import { Patient } from "../../types";
-import { MainDemoTitles } from "../constants";
+import {
+  MainDemoTitles,
+  AdditionalInfoTitles,
+  AdditionalInfoButtonText,
+  AdditionalInfoDetails,
+} from "../constants";
 import { Styled } from "./MainComponentStyles/patientTableStyles";
 
 const columns = [
@@ -31,34 +36,35 @@ const columns = [
     accessorKey: "firstName",
     header: "First Name",
     size: 20,
-    sortDescFirst: false,
     cell: (data) => <div>{data.getValue()}</div>,
   },
   {
     accessorKey: "lastName",
     header: "Last Name",
-    sortDescFirst: false,
     size: 20,
     cell: (data) => <div>{data.getValue()}</div>,
   },
   {
+    id: "dob",
     accessorKey: "dob",
     header: "Date of Birth",
-    sortDescFirst: false,
     size: 10,
     cell: (data) => <div>{data.getValue()}</div>,
+    sortingFn: (a, b, columnId) => {
+      const yearA = a.getValue(columnId).slice(-4);
+      const yearB = b.getValue(columnId).slice(-4);
+      return yearA - yearB;
+    },
   },
   {
     accessorKey: "primaryCity",
     header: "Primary City",
-    sortDescFirst: false,
     size: 15,
     cell: (data) => <div>{data.getValue()}</div>,
   },
   {
     accessorKey: "intakeStatus",
     header: "Intake Status",
-    sortDescFirst: false,
     size: 50,
     cell: (data) => <div>{data.getValue()}</div>,
   },
@@ -90,12 +96,7 @@ const PatientTable: React.FC<Props> = ({
     pageIndex: 0,
     pageSize: 10,
   });
-  const [sorting, setSorting] = React.useState<SortingState>([
-    {
-      id: "lastName",
-      desc: false,
-    },
-  ]);
+  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     columns,
@@ -123,7 +124,27 @@ const PatientTable: React.FC<Props> = ({
 
   return (
     <Styled.Container aria-label="Patient Table Container">
-      <Styled.AddPatient>
+      <Styled.Add>
+        <PopOver
+          title={AdditionalInfoTitles.add}
+          buttonText={AdditionalInfoButtonText.allAdd}
+          triggerType="button"
+          aria-label="Add Additional Info Field to All Patients"
+          setGetUpdatedData={setGetUpdatedData}
+          allUniversalAdditionalInfoFields={allUniversalAdditionalInfoFields}
+          details={AdditionalInfoDetails.allAdd}
+          fieldNames={Object.keys(allUniversalAdditionalInfoFields)}
+        />
+        <PopOver
+          title={AdditionalInfoTitles.delete}
+          buttonText={AdditionalInfoButtonText.allDelete}
+          triggerType="button"
+          setGetUpdatedData={setGetUpdatedData}
+          aria-label="Delete Additional Info Field to All Patients"
+          allUniversalAdditionalInfoFields={allUniversalAdditionalInfoFields}
+          details={AdditionalInfoDetails.allDelete}
+          fieldNames={Object.keys(allUniversalAdditionalInfoFields)}
+        />
         <PopOver
           title={MainDemoTitles.add}
           buttonText="+ New Patient"
@@ -132,7 +153,7 @@ const PatientTable: React.FC<Props> = ({
           aria-label="Add New Patient"
           allUniversalAdditionalInfoFields={allUniversalAdditionalInfoFields}
         />
-      </Styled.AddPatient>
+      </Styled.Add>
       <Styled.TableContainer>
         <Styled.Table aria-label="Patient Table">
           <Styled.THead aria-label="Table Head">

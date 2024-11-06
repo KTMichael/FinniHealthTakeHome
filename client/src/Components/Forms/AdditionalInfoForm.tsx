@@ -1,5 +1,5 @@
 import React from "react";
-import type { FieldApi } from "@tanstack/react-form";
+import type { FieldApi, FieldValidateFn } from "@tanstack/react-form";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
@@ -24,7 +24,6 @@ interface Props {
 }
 
 const AdditionalInfoForm = ({ setOpen, formValues }) => {
-  console.log(formValues);
   const form = useForm({
     onSubmit: async ({ value }) => {
       const payload = {
@@ -38,18 +37,93 @@ const AdditionalInfoForm = ({ setOpen, formValues }) => {
         );
       }
     },
-    defaultValues: formValues,
+    defaultValues: formValues ?? "",
   });
 
-  return (
-    <Styled.Container aria-label="Update Additional Info Form">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
-        }}
-      >
+  const fieldValidator: FieldValidateFn<any, any, any, any, any> = ({
+    value,
+  }) => (!value ? "Value is required" : undefined);
+
+  const createFormField = () => {
+    if (formValues.fieldValue.fieldType === "Number") {
+      return (
+        <>
+          <Styled.FormFieldContainer aria-label="Update Additional Info Form Container">
+            <form.Field
+              aria-label="Update Additional Info Form Field"
+              name={formValues.fieldName}
+              validators={{
+                onChange: fieldValidator,
+              }}
+              children={(field) => (
+                <Styled.FormField>
+                  <Styled.Section>
+                    <Styled.Label
+                      htmlFor={field.name}
+                      aria-label="Update Additional Info Label"
+                    >
+                      {formValues.fieldName}*:
+                    </Styled.Label>
+                    <Styled.Input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="Value"
+                      aria-label="Update Additional Info Input"
+                      pattern="^\d*(\.\d{1,2})?$"
+                      type={formValues.fieldValue.fieldType}
+                    />
+                  </Styled.Section>
+                  <FieldInfo
+                    field={field}
+                    aria-label="Add Additional Info Field Info"
+                  />
+                </Styled.FormField>
+              )}
+            />
+          </Styled.FormFieldContainer>
+          <Styled.FormFieldContainer aria-label="Update Additional Info Field Label Field Label Form Container">
+            <form.Field
+              aria-label="Update Additional Info Field Label Form Field"
+              name="fieldLabel"
+              validators={{
+                onChange: fieldValidator,
+              }}
+              validatorAdapter={zodValidator()}
+              children={(field) => (
+                <Styled.FormField>
+                  <Styled.Section>
+                    <Styled.Label
+                      htmlFor={field.name}
+                      aria-label="Update Additional Info Field Label Label"
+                    >
+                      Field Label*:
+                    </Styled.Label>
+                    <Styled.Input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="Label"
+                      aria-label="Update Additional Info Field Label Input"
+                      type="text"
+                    />
+                  </Styled.Section>
+                  <FieldInfo
+                    field={field}
+                    aria-label="UUpdate Additional Info Field Label Field Info"
+                  />
+                </Styled.FormField>
+              )}
+            />
+          </Styled.FormFieldContainer>
+        </>
+      );
+    } else {
+      return (
         <Styled.FormFieldContainer aria-label="Update Additional Info Form Container">
           <form.Field
             aria-label="Update Additional Info Form Field"
@@ -61,10 +135,6 @@ const AdditionalInfoForm = ({ setOpen, formValues }) => {
                   invalid_type_error: `${formValues.fieldName} must be a string`,
                 })
                 .trim(),
-              onChangeAsync: z.string().refine(async (value) => {
-                await new Promise((resolve) => setTimeout(resolve, 1000));
-                return !value.includes("error");
-              }),
             }}
             validatorAdapter={zodValidator()}
             children={(field) => (
@@ -84,6 +154,7 @@ const AdditionalInfoForm = ({ setOpen, formValues }) => {
                     onChange={(e) => field.handleChange(e.target.value)}
                     placeholder={formValues.fieldName}
                     aria-label="Update Additional Info Input"
+                    type={formValues.fieldValue.fieldType}
                   />
                 </Styled.Section>
                 <FieldInfo
@@ -94,6 +165,20 @@ const AdditionalInfoForm = ({ setOpen, formValues }) => {
             )}
           />
         </Styled.FormFieldContainer>
+      );
+    }
+  };
+
+  return (
+    <Styled.Container aria-label="Update Additional Info Form">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          form.handleSubmit();
+        }}
+      >
+        {createFormField()}
         <form.Subscribe
           selector={(state) => [state.canSubmit, state.isSubmitting]}
           children={([canSubmit, isSubmitting]) => (

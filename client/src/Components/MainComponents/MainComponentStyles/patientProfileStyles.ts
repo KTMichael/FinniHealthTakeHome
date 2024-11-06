@@ -60,6 +60,7 @@ export const Styled = {
     flex-direction: row;
     gap: 10px;
     min-width: 675px;
+    min-height: 240px;
   `,
   MainDemographics: styled.div`
     width: 30%;
@@ -107,7 +108,7 @@ export const Styled = {
   AdditionalAddress: styled.div`
     margin-left: 10px;
     border-bottom: solid 1px black;
-    width: 100%;
+    width: 95%;
   `,
   ContentContainer: styled.div`
     overflow-wrap: anywhere;
@@ -215,6 +216,7 @@ export const Styled = {
     overflow: scroll;
     @media (max-width: 1250px) {
       height: calc(100% - 65px);
+      min-height: 25px;
     }
   `,
 };

@@ -62,11 +62,19 @@ export const AdditionalAddressButtonText = {
 };
 
 export const AdditionalInfoTitles = {
-  add: "Add Additional Information",
-  edit: "Edit Additional Information",
+  add: "Add Additional Information Field",
+  edit: "Edit Additional Information Field",
+  delete: "Delete Additional Information Fields",
+};
+
+export const AdditionalInfoDetails = {
+  allAdd: "Add additional information field to all patients",
+  singleAdd: "Add additional information field to current patient",
+  allDelete: "Delete additional information field from all patients",
 };
 
 export const AdditionalInfoButtonText = {
-  single: "+ Field to Current Patient",
-  all: "+ Field to All Patients",
+  singleAdd: "+ Field to Current Patient",
+  allAdd: "+ Field to All Patients",
+  allDelete: "- Field from All Patients",
 };

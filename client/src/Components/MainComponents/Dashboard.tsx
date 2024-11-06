@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import { PatientTable, SideBar, TopBar } from "..";
+import { PatientTable, SideBar, TopBar } from "../";
 import {
   getAllPatientData,
   getUniversalAdditionalInfoFields,

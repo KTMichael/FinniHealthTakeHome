@@ -4,7 +4,7 @@ import {
   MainDemographicsForm,
   AdditionalAddressForm,
   AdditionalInfoForm,
-  AddAdditionalInfoField,
+  AddAdditionalInfoFieldForm,
 } from "../Forms";
 import {
   DialogContent,
@@ -24,6 +24,7 @@ import {
 import { Patient, AdditionalAddresses, AdditionalField } from "../../types";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { DeleteUniversalInfoFields } from "./";
 
 const Styled = {
   DialogContent: styled(DialogContent)`
@@ -37,7 +38,7 @@ const Styled = {
   `,
   Title: styled(Title)`
     color: #fbf7f0;
-    margin: 0 0 -5px 0;
+    margin: 0 0 -10px 0;
     font-size: 35px;
   `,
   Icon: styled(FontAwesomeIcon)`
@@ -46,6 +47,10 @@ const Styled = {
     :hover {
       color: #ed762f;
     }
+  `,
+  Details: styled(Dialog.Description)`
+    color: white;
+    margin: 0 0 0 10px;
   `,
 };
 
@@ -60,6 +65,7 @@ interface Props {
   id?: string;
   additionalField?: AdditionalField;
   allUniversalAdditionalInfoFields?: { [x: string]: string };
+  details?: string;
 }
 
 const PopOver: React.FC<Props> = ({
@@ -73,6 +79,7 @@ const PopOver: React.FC<Props> = ({
   id,
   additionalField,
   allUniversalAdditionalInfoFields,
+  details,
 }) => {
   const [open, setOpen] = React.useState(false);
   const [formComponent, setFormComponent] = React.useState(
@@ -108,19 +115,40 @@ const PopOver: React.FC<Props> = ({
     }
     if (Object.values(AdditionalInfoTitles).includes(title)) {
       if (title === AdditionalInfoTitles.add) {
-        setFormComponent(
-          <AddAdditionalInfoField
-            setOpen={setOpen}
-            formValues={id}
-            fieldDestination={
-              buttonText === AdditionalInfoButtonText.all ? "all" : "current"
-            }
-            fieldNames={fieldNames}
-          />
-        );
+        if (
+          buttonText === AdditionalInfoButtonText.allAdd &&
+          setGetUpdatedData
+        ) {
+          setFormComponent(
+            <AddAdditionalInfoFieldForm
+              setOpen={setOpen}
+              formValues={id}
+              fieldDestination="all"
+              fieldNames={fieldNames}
+              setGetUpdatedData={setGetUpdatedData}
+            />
+          );
+        } else {
+          setFormComponent(
+            <AddAdditionalInfoFieldForm
+              setOpen={setOpen}
+              formValues={id}
+              fieldDestination="current"
+              fieldNames={fieldNames}
+              setGetUpdatedData={setGetUpdatedData}
+            />
+          );
+        }
       } else if (title === AdditionalInfoTitles.edit) {
         setFormComponent(
           <AdditionalInfoForm setOpen={setOpen} formValues={additionalField} />
+        );
+      } else if (setGetUpdatedData && title === AdditionalInfoTitles.delete) {
+        setFormComponent(
+          <DeleteUniversalInfoFields
+            fieldNames={fieldNames}
+            setGetUpdatedData={setGetUpdatedData}
+          />
         );
       }
     }
@@ -131,6 +159,7 @@ const PopOver: React.FC<Props> = ({
         open={open}
         onOpenChange={setOpen}
         aria-label="Pop Over Container"
+        aria-describedby={undefined}
       >
         <Dialog.Trigger asChild>
           {triggerType === "button" ? (
@@ -145,8 +174,13 @@ const PopOver: React.FC<Props> = ({
         </Dialog.Trigger>
         <Dialog.Portal>
           <DialogOverlay />
-          <Styled.DialogContent>
+          <Styled.DialogContent aria-describedby={undefined}>
             <Styled.Title aria-label="Pop Over Title">{title}</Styled.Title>
+            {details ? (
+              <Styled.Details>{details}</Styled.Details>
+            ) : (
+              <Styled.Details></Styled.Details>
+            )}
             {formComponent}
           </Styled.DialogContent>
         </Dialog.Portal>

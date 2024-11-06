@@ -10,12 +10,13 @@ export const Styled = {
     padding: 10px;
     overflow: scroll;
   `,
-  AddPatient: styled.div`
+  Add: styled.div`
     display: flex;
     justify-content: right;
     margin: 10px;
     position: sticky;
     top: 0;
+    gap: 10px;
   `,
   TableContainer: styled.div`
     height: calc(100% - 100px);

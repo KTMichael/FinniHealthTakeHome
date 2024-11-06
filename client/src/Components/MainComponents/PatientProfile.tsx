@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SideBar, TopBar, PopOver } from "..";
+import { SideBar, TopBar, PopOver } from "../";
 import { useNavigate, useLocation } from "react-router-dom";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db, deleteAddress, deleteAdditionalField } from "../databaseFunctions";
@@ -19,6 +19,7 @@ import {
   DefaultAdditionalAddress,
   AdditionalInfoButtonText,
   AdditionalAddressButtonText,
+  AdditionalInfoDetails,
 } from "../constants";
 
 const PatientProfile = () => {
@@ -78,8 +79,8 @@ const PatientProfile = () => {
       setAdditionalInfo({
         universalAdditionalInfoFields:
           doc.data()?.universalAdditionalInfoFields,
-        additionalPatientSpecificInfo:
-          doc.data()?.additionalPatientSpecificInfo,
+        patientSpecificAdditionalInfoFields:
+          doc.data()?.patientSpecificAdditionalInfoFields,
       });
     });
     return () => {
@@ -124,7 +125,8 @@ const PatientProfile = () => {
   React.useEffect(() => {
     if (additionalInfo) {
       const additional = additionalInfo.universalAdditionalInfoFields;
-      const patientSpecific = additionalInfo.additionalPatientSpecificInfo;
+      const patientSpecific =
+        additionalInfo.patientSpecificAdditionalInfoFields;
       const additionalInfoData = { ...additional, ...patientSpecific };
       const fields = Object.keys(additionalInfoData).sort((a, b) =>
         a.localeCompare(b)
@@ -148,20 +150,25 @@ const PatientProfile = () => {
               {fieldName}:
             </Styled.AdditionalFieldTitle>
             <Styled.AdditionalInfoValue>
-              {additionalInfo[fieldName]}
+              {additionalInfo[fieldName].fieldLabel
+                ? `${additionalInfo[fieldName].fieldValue} ${additionalInfo[fieldName].fieldLabel}`
+                : additionalInfo[fieldName].fieldValue}
             </Styled.AdditionalInfoValue>
             <Styled.EditDelete>
-              <Styled.Icon
-                icon={faTrashCan}
-                onClick={() =>
-                  deleteAdditionalField(
-                    fieldName,
-                    additionalAddresses.id,
-                    dbTitle
-                  )
-                }
-                aria-label={`Delete ${fieldName} Field`}
-              />
+              {dbTitle === "universalAdditionalInfoFields" ? null : (
+                <Styled.Icon
+                  icon={faTrashCan}
+                  onClick={() =>
+                    deleteAdditionalField(
+                      fieldName,
+                      additionalAddresses.id,
+                      dbTitle
+                    )
+                  }
+                  aria-label={`Delete ${fieldName} Field`}
+                />
+              )}
+
               <PopOver
                 title={AdditionalInfoTitles.edit}
                 triggerType="icon"
@@ -275,19 +282,12 @@ const PatientProfile = () => {
               <Styled.AddAdditionalInfoFields>
                 <PopOver
                   title={AdditionalInfoTitles.add}
-                  buttonText={AdditionalInfoButtonText.single}
+                  buttonText={AdditionalInfoButtonText.singleAdd}
                   triggerType="button"
                   id={state.id}
                   fieldNames={additionalInfoFields}
                   aria-label="Add Additional Info Field to Current Patient"
-                />
-                <PopOver
-                  title={AdditionalInfoTitles.add}
-                  buttonText={AdditionalInfoButtonText.all}
-                  triggerType="button"
-                  id={state.id}
-                  fieldNames={additionalInfoFields}
-                  aria-label="Add Additional Info Field to Current Patient"
+                  details={AdditionalInfoDetails.singleAdd}
                 />
               </Styled.AddAdditionalInfoFields>
             </Styled.AdditionalInfoHeader>
@@ -299,8 +299,8 @@ const PatientProfile = () => {
                 </Styled.AdditionalInfoContentTitle>
                 <Styled.AdditionalInfoContentBody>
                   {displayAdditionalInfo(
-                    additionalInfo?.additionalPatientSpecificInfo,
-                    "additionalPatientSpecificInfo"
+                    additionalInfo?.patientSpecificAdditionalInfoFields,
+                    "patientSpecificAdditionalInfoFields"
                   )}
                 </Styled.AdditionalInfoContentBody>
               </Styled.AdditionalInfoContent>
@@ -310,8 +310,8 @@ const PatientProfile = () => {
                 </Styled.AdditionalInfoContentTitle>
                 <Styled.AdditionalInfoContentBody>
                   {displayAdditionalInfo(
-                    additionalInfo?.additionalInfo,
-                    "additionalInfo"
+                    additionalInfo?.universalAdditionalInfoFields,
+                    "universalAdditionalInfoFields"
                   )}
                 </Styled.AdditionalInfoContentBody>
               </Styled.AdditionalInfoContent>

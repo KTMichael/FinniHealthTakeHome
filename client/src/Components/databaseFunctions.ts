@@ -44,7 +44,6 @@ export const getUniversalAdditionalInfoFields = async () => {
 };
 
 export const addFieldToCollection = async (payload) => {
-  let title = payload.fieldName;
   try {
     const PatientsSnapshot = await getDocs(patientDataCollection)
       .then((data) => {
@@ -52,7 +51,13 @@ export const addFieldToCollection = async (payload) => {
           setDoc(
             doc(db, "PatientData", patient.id),
             {
-              universalAdditionalInfoFields: { [title]: "" },
+              universalAdditionalInfoFields: {
+                [payload.fieldName]: {
+                  fieldType: payload.fieldType,
+                  fieldValue: "",
+                  fieldLabel: "",
+                },
+              },
             },
             { merge: true }
           );
@@ -62,43 +67,16 @@ export const addFieldToCollection = async (payload) => {
         setDoc(
           doc(db, "AdditionalFields", "AdditionalFields"),
           {
-            [title]: "",
+            [payload.fieldName]: {
+              fieldType: payload.fieldType,
+              fieldValue: "",
+              fieldLabel: "",
+            },
           },
           { merge: true }
         );
       });
     return PatientsSnapshot;
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-export const addAdditionalFieldToPatient = async (payload, id) => {
-  let title = payload.fieldName;
-  try {
-    const addData = doc(db, "PatientData", id);
-    await setDoc(
-      addData,
-      {
-        additionalPatientSpecificInfo: { [title]: "" },
-      },
-      { merge: true }
-    );
-  } catch (err) {
-    console.error(err);
-  }
-};
-export const updateAdditionalField = async (payload, id, dbTitle) => {
-  let title = payload.fieldName;
-  try {
-    const addData = doc(db, "PatientData", id);
-    await setDoc(
-      addData,
-      {
-        [dbTitle]: { [title]: payload[title] },
-      },
-      { merge: true }
-    );
   } catch (err) {
     console.error(err);
   }
@@ -114,6 +92,72 @@ export const deleteAdditionalField = async (payload, id, dbTitle) => {
     console.error(err);
   }
 };
+
+export const deleteFieldFromCollection = async (payload, dbTitle) => {
+  try {
+    const PatientsSnapshot = await getDocs(patientDataCollection)
+      .then((data) => {
+        data.forEach((patient) => {
+          updateDoc(doc(db, "PatientData", patient.id), {
+            [`${dbTitle}.${payload}`]: deleteField(),
+          });
+        });
+      })
+      .then(() => {
+        setDoc(
+          doc(db, "AdditionalFields", "AdditionalFields"),
+          {
+            [`${payload}`]: deleteField(),
+          },
+          { merge: true }
+        );
+      });
+    return PatientsSnapshot;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const addAdditionalFieldToPatient = async (payload, id) => {
+  try {
+    const addData = doc(db, "PatientData", id);
+    await setDoc(
+      addData,
+      {
+        patientSpecificAdditionalInfoFields: {
+          [payload.fieldName]: {
+            fieldType: payload.fieldType,
+            fieldValue: "",
+            fieldLabel: "",
+          },
+        },
+      },
+      { merge: true }
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const updateAdditionalField = async (payload, id, dbTitle) => {
+  try {
+    const addData = doc(db, "PatientData", id);
+    await setDoc(
+      addData,
+      {
+        [dbTitle]: {
+          [payload.fieldName]: {
+            fieldValue: payload[payload.fieldName],
+            fieldLabel: payload.fieldLabel ?? "",
+          },
+        },
+      },
+      { merge: true }
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const getPatientDataById = async (id) => {
   const docRef = doc(db, "PatientData", id);
   try {
@@ -129,7 +173,6 @@ export const getPatientDataById = async (id) => {
 };
 
 export const createNewPatient = async (payload) => {
-  console.log("p", payload);
   try {
     await addDoc(patientDataCollection, payload);
   } catch (err) {
