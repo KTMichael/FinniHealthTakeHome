@@ -2,7 +2,11 @@ import * as React from "react";
 import { SideBar, TopBar, PopOver } from "../";
 import { useNavigate, useLocation } from "react-router-dom";
 import { doc, onSnapshot } from "firebase/firestore";
-import { db, deleteAddress, deleteAdditionalField } from "../databaseFunctions";
+import {
+  db,
+  deleteAddress,
+  deleteAdditionalField,
+} from "../../../../Firebase/databaseFunctions";
 import { Styled } from "./MainComponentStyles/patientProfileStyles";
 import {
   faArrowLeft,

@@ -5,7 +5,10 @@ import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
 import { Styled } from "./formStyles";
 import { TFormDataAddressOnly } from "../../types";
-import { addAdditionalAddress, deleteAddress } from "../databaseFunctions";
+import {
+  addAdditionalAddress,
+  deleteAddress,
+} from "../../../../Firebase/databaseFunctions";
 import { DefaultAdditionalAddress } from ".././constants";
 
 const FieldInfo = ({ field }: { field: FieldApi<any, any, any, any> }) => {

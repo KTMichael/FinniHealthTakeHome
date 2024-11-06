@@ -7,7 +7,7 @@ import { Styled } from "./formStyles";
 import {
   addFieldToCollection,
   addAdditionalFieldToPatient,
-} from "../databaseFunctions";
+} from "../../../../Firebase/databaseFunctions";
 import { upperCase } from "../helpers";
 
 const FieldInfo = ({ field }: { field: FieldApi<any, any, any, any> }) => {

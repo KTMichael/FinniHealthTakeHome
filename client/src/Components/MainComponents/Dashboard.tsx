@@ -4,7 +4,7 @@ import { PatientTable, SideBar, TopBar } from "../";
 import {
   getAllPatientData,
   getUniversalAdditionalInfoFields,
-} from "../databaseFunctions";
+} from "../../../../Firebase/databaseFunctions";
 import { Patient } from "../../types";
 
 const Styled = {

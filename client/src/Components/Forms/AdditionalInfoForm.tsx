@@ -4,7 +4,7 @@ import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
 import { Styled } from "./formStyles";
-import { updateAdditionalField } from "../databaseFunctions";
+import { updateAdditionalField } from "../../../../Firebase/databaseFunctions";
 import { AdditionalField } from "../../types";
 
 const FieldInfo = ({ field }: { field: FieldApi<any, any, any, any> }) => {

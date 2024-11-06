@@ -4,7 +4,10 @@ import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
 import { Styled } from "./formStyles";
-import { createNewPatient, updatePatientData } from "../databaseFunctions";
+import {
+  createNewPatient,
+  updatePatientData,
+} from "../../../../Firebase/databaseFunctions";
 import { TFormData, Patient } from "../../types";
 import { deepCompare } from "../helpers";
 
