@@ -1,5 +1,5 @@
 import * as React from "react";
-import { deleteFieldFromCollection } from "../../../firebase/databaseFunctions";
+import { deleteFieldFromCollection } from "../../../../firebase/databaseFunctions";
 import styled from "styled-components";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
