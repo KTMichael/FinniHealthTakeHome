@@ -13,8 +13,10 @@ This project is a patient management dashboard. You can add patients, view patie
 ### Future development activities include:
 
 - Create search field that will only display patients that meet the search criteria in the table.
-- Allow for more additional field types.
+- Allow for additional field types.
 - Improve validation
+- Create user types such as physician and administrators - give them certain capabilities.
+- Place creation and deletion of universal additional field types to just administrators
 
 ## License
 
