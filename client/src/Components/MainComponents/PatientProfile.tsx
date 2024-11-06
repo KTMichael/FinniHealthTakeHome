@@ -6,7 +6,7 @@ import {
   db,
   deleteAddress,
   deleteAdditionalField,
-} from "../../../../firebase/databaseFunctions";
+} from "../../../firebase/databaseFunctions";
 import { Styled } from "./MainComponentStyles/patientProfileStyles";
 import {
   faArrowLeft,

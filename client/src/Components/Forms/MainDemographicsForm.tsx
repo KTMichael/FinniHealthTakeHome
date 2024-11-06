@@ -7,7 +7,7 @@ import { Styled } from "./formStyles";
 import {
   createNewPatient,
   updatePatientData,
-} from "../../../../firebase/databaseFunctions";
+} from "../../../firebase/databaseFunctions";
 import { TFormData, Patient } from "../../types";
 import { deepCompare } from "../helpers";
 

@@ -8,7 +8,7 @@ import { TFormDataAddressOnly } from "../../types";
 import {
   addAdditionalAddress,
   deleteAddress,
-} from "../../../../firebase/databaseFunctions";
+} from "../../../firebase/databaseFunctions";
 import { DefaultAdditionalAddress } from "../constants";
 
 const FieldInfo = ({ field }: { field: FieldApi<any, any, any, any> }) => {
