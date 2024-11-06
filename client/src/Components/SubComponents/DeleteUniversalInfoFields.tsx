@@ -52,6 +52,7 @@ const DeleteUniversalInfoFields: React.FC<Props> = ({
 }) => {
   const displayFields = () => {
     if (fieldNames && fieldNames.length >= 1) {
+      Object.keys(fieldNames).sort((a, b) => a.localeCompare(b));
       return fieldNames?.map((fieldName) => {
         return (
           <Styled.AdditionalField

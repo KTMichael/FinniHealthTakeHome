@@ -67,7 +67,7 @@ const AdditionalInfoForm = ({ setOpen, formValues }) => {
                     <Styled.Input
                       id={field.name}
                       name={field.name}
-                      value={field.state.value}
+                      value={field.state.value ?? ""}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       placeholder="Value"
@@ -104,7 +104,7 @@ const AdditionalInfoForm = ({ setOpen, formValues }) => {
                     <Styled.Input
                       id={field.name}
                       name={field.name}
-                      value={field.state.value}
+                      value={field.state.value ?? ""}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       placeholder="Label"
@@ -149,7 +149,7 @@ const AdditionalInfoForm = ({ setOpen, formValues }) => {
                   <Styled.Input
                     id={field.name}
                     name={field.name}
-                    value={field.state.value}
+                    value={field.state.value ?? ""}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     placeholder={formValues.fieldName}
