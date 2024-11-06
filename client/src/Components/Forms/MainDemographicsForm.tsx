@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import type { FieldApi } from "@tanstack/react-form";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
@@ -7,7 +7,7 @@ import { Styled } from "./formStyles";
 import {
   createNewPatient,
   updatePatientData,
-} from "../../../../Firebase/databaseFunctions";
+} from "../../../firebase/databaseFunctions";
 import { TFormData, Patient } from "../../types";
 import { deepCompare } from "../helpers";
 

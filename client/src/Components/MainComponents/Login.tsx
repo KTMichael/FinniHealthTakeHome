@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, googleProvider } from "../../../../Firebase/firebase";
+import { auth, googleProvider } from "../../../firebase/config";
 import { signInWithPopup } from "firebase/auth";
 import FinniLogoFoxRight from "../Assests/FinniLogoFoxRight.svg";
 import FinniLogo from "../Assests/FinniLogo.svg";

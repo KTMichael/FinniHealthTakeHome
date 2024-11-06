@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import type { FieldApi } from "@tanstack/react-form";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
@@ -8,7 +8,7 @@ import { TFormDataAddressOnly } from "../../types";
 import {
   addAdditionalAddress,
   deleteAddress,
-} from "../../../../Firebase/databaseFunctions";
+} from "../../../firebase/databaseFunctions";
 import { DefaultAdditionalAddress } from ".././constants";
 
 const FieldInfo = ({ field }: { field: FieldApi<any, any, any, any> }) => {

@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import * as HoverCard from "@radix-ui/react-hover-card";
 import { Patient } from "../../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

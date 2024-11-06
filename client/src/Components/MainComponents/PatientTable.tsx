@@ -78,7 +78,7 @@ declare module "@tanstack/react-table" {
 }
 
 interface Props {
-  patientData: Patient;
+  patientData: Patient[];
   setGetUpdatedData: (boolean) => void;
   allUniversalAdditionalInfoFields: { [x: string]: string };
 }
