@@ -8,6 +8,7 @@ Patient Management Dashboard with patients profile viewing and custom patient fi
 
 This project is a patient management dashboard. You can add patients, view patients in a table, search and sort through patients via table, view patients profile, and add/delete fields for patients.
 
+## Project Screen Shots
 ### Login Screen
 ![](https://github.com/KTMichael/FinniHealthTakeHome/blob/main/ReadMeImages/loginScreen.png)
 
